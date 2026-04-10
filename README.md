@@ -38,28 +38,64 @@ The point is reproducible formatting for shell pipelines, not universal token op
 
 ## Quickstart
 
-Auto-route a local file:
+GitHub READMEs do not support real tabs, so the examples below are grouped as separate command/output blocks.
+
+### Auto-route a local JSON file
 
 ```bash
 llmfmt users.json
 ```
 
-Force a compact tabular format:
+```text
+id	name	role
+1	alice	admin
+2	bob	user
+3	charlie	user
+```
+
+### Force TOON output
 
 ```bash
 llmfmt users.json --output-format toon
 ```
 
-Wrap API output for direct prompt use:
+```text
+users[3]{id,name,role}:
+  1,alice,admin
+  2,bob,user
+  3,charlie,user
+```
+
+### Wrap API output for direct prompt use
 
 ```bash
 curl -s https://jsonplaceholder.typicode.com/users | llmfmt --wrap
 ```
 
-Run quietly in scripts:
+````text
+```yaml
+- address:
+    city: Gwenborough
+    geo:
+      lat: '-37.3159'
+      lng: '81.1496'
+...
+```
+````
+
+### Run quietly in scripts
 
 ```bash
 curl -s https://jsonplaceholder.typicode.com/users | llmfmt --stats off
+```
+
+```text
+- address:
+    city: Gwenborough
+    geo:
+      lat: '-37.3159'
+      lng: '81.1496'
+...
 ```
 
 ## Why this exists
