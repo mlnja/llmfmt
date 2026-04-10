@@ -36,6 +36,32 @@ It is intentionally narrow:
 
 The point is reproducible formatting for shell pipelines, not universal token optimality.
 
+## Quickstart
+
+Auto-route a local file:
+
+```bash
+llmfmt users.json
+```
+
+Force a compact tabular format:
+
+```bash
+llmfmt users.json --output-format toon
+```
+
+Wrap API output for direct prompt use:
+
+```bash
+curl -s https://jsonplaceholder.typicode.com/users | llmfmt --wrap
+```
+
+Run quietly in scripts:
+
+```bash
+curl -s https://jsonplaceholder.typicode.com/users | llmfmt --stats off
+```
+
 ## Why this exists
 
 Most structured data shown to LLMs is still dumped as JSON, even when that is verbose or awkward to scan. `llmfmt` sits in the middle of a pipeline and rewrites the same data into a format that is often smaller and easier for a model to read.
