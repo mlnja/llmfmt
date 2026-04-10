@@ -264,6 +264,18 @@ JSON mode emits:
 - `output_bytes`
 - `delta_percent`
 
+To suppress stats entirely:
+
+```bash
+llmfmt users.json --stats off
+```
+
+Or suppress `stderr` at the shell level:
+
+```bash
+llmfmt users.json 2>/dev/null
+```
+
 ## Validation
 
 TSV output is only allowed when:
