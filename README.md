@@ -36,6 +36,38 @@ It is intentionally narrow:
 
 The point is reproducible formatting for shell pipelines, not universal token optimality.
 
+## Installation
+
+### Homebrew
+
+```bash
+brew install mlnja/tap/llmfmt
+```
+
+### Linux
+
+Download the latest Debian package for your architecture and install it with `dpkg`:
+
+#### Linux x86_64
+
+```bash
+VERSION=0.1.0
+curl -fsSL -o /tmp/llmfmt_${VERSION}_amd64.deb \
+  https://github.com/mlnja/llmfmt/releases/download/v${VERSION}/llmfmt_${VERSION}_amd64.deb
+sudo dpkg -i /tmp/llmfmt_${VERSION}_amd64.deb
+llmfmt --version
+```
+
+#### Linux ARM64
+
+```bash
+VERSION=0.1.0
+curl -fsSL -o /tmp/llmfmt_${VERSION}_arm64.deb \
+  https://github.com/mlnja/llmfmt/releases/download/v${VERSION}/llmfmt_${VERSION}_arm64.deb
+sudo dpkg -i /tmp/llmfmt_${VERSION}_arm64.deb
+llmfmt --version
+```
+
 ## Quickstart
 
 GitHub READMEs do not support real tabs, so the examples below are grouped as separate command/output blocks.
