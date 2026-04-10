@@ -1,6 +1,31 @@
-# llmfmt
+<h1 align="center">llmfmt</h1>
 
-`llmfmt` is a deterministic CLI for converting structured data into compact, prompt-ready text for LLM workflows.
+<p align="center">
+  Deterministic CLI for converting structured data into compact, prompt-ready text for LLM workflows.
+</p>
+
+<p align="center">
+  <a href="https://github.com/mlnja/llmfmt/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/mlnja/llmfmt?style=flat-square" alt="License" />
+  </a>
+  <a href="https://github.com/mlnja/llmfmt/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/mlnja/llmfmt/ci.yml?branch=main&style=flat-square&label=ci" alt="CI" />
+  </a>
+  <a href="https://github.com/mlnja/llmfmt/releases">
+    <img src="https://img.shields.io/github/v/release/mlnja/llmfmt?style=flat-square" alt="Latest release" />
+  </a>
+  <img src="https://img.shields.io/badge/runtime-Rust-000000?style=flat-square&logo=rust" alt="Rust runtime" />
+  <img src="https://img.shields.io/badge/output-TOON%20%7C%20TSV%20%7C%20YAML%20%7C%20JSON-2EA44F?style=flat-square" alt="Output formats" />
+  <img src="https://img.shields.io/badge/routing-versioned%20profiles-0A66C2?style=flat-square" alt="Versioned profiles" />
+</p>
+
+<p align="center">
+  <a href="#quick-commands">Quick Commands</a>
+  ·
+  <a href="#cli">CLI</a>
+  ·
+  <a href="#automation">Automation</a>
+</p>
 
 It is intentionally narrow:
 
@@ -76,7 +101,8 @@ Routing is fully delegated to the active profile.
 Current built-in profile:
 
 - `20260410`
-- `latest` resolves to `20260410`
+- `20260411`
+- `latest` resolves to `20260411`
 
 Current routing intent:
 
