@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: {}
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  build:
+    name: Build (${{ matrix.suffix }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            suffix: linux-amd64
+            binary: llmfmt
+          - os: ubuntu-24.04-arm
+            suffix: linux-arm64
+            binary: llmfmt
+          - os: macos-latest
+            suffix: darwin-arm64
+            binary: llmfmt
+          - os: macos-15-intel
+            suffix: darwin-amd64
+            binary: llmfmt
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        run: cargo build --release --bin ${{ matrix.binary }}
+
+      - name: Strip and package
+        shell: bash
+        run: |
+          if command -v strip >/dev/null 2>&1; then
+            strip target/release/${{ matrix.binary }} || true
+          fi
+
+          mkdir -p dist
+          cp target/release/${{ matrix.binary }} dist/llmfmt-${{ matrix.suffix }}
+          cd dist
+          tar czf llmfmt-${{ matrix.suffix }}.tar.gz llmfmt-${{ matrix.suffix }}
+          shasum -a 256 llmfmt-${{ matrix.suffix }}.tar.gz > llmfmt-${{ matrix.suffix }}.tar.gz.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: llmfmt-${{ matrix.suffix }}
+          path: dist/
+
+  create-release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Collect release assets
+        run: |
+          mkdir -p release-assets
+          find artifacts -type f \( -name "*.tar.gz" -o -name "*.sha256" \) -exec cp {} release-assets/ \;
+          ls -lh release-assets/
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

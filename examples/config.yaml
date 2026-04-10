@@ -1,0 +1,6 @@
+service:
+  name: llmfmt
+  retries: 3
+  features:
+    wrap: true
+    stats: json
