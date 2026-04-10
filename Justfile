@@ -1,3 +1,49 @@
+# Bump the version, commit, tag, and push.
+# Usage:
+#   just
+#   just release
+#   just release bump=minor
+#   just release bump=major
+release bump="patch":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    current=$(grep '^version' Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+    IFS='.' read -r major minor patch <<< "$current"
+
+    case "{{ bump }}" in
+        patch)
+            next="$major.$minor.$((patch + 1))"
+            ;;
+        minor)
+            next="$major.$((minor + 1)).0"
+            ;;
+        major)
+            next="$((major + 1)).0.0"
+            ;;
+        *)
+            echo "invalid bump '{{ bump }}'; expected patch, minor, or major" >&2
+            exit 1
+            ;;
+    esac
+
+    echo "Bumping $current -> $next"
+
+    sed -i.bak "s/^version = \"$current\"/version = \"$next\"/" Cargo.toml
+    rm Cargo.toml.bak
+
+    cargo update --workspace --quiet
+
+    git add Cargo.toml Cargo.lock
+    git commit -m "chore: bump version to $next"
+
+    git tag -a "v$next" -m "v$next"
+
+    git push origin main
+    git push origin "v$next"
+
+    echo "Released v$next"
+
 # Update the Homebrew tap formula with release SHAs.
 # Usage:
 #   just update-tap
